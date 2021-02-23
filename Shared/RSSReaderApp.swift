@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct RSSReaderApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+  var store = Store()
+
+  var body: some Scene {
+    WindowGroup {
+      MainView()
+        .environmentObject(store)
     }
+    
+    #if os(macOS)
+    Settings {
+      SettingsViewMac().frame(minWidth: 640, minHeight: 480).environmentObject(store)
+    }
+    #endif
+  }
 }
