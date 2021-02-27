@@ -44,6 +44,10 @@
 		66E8BBF725E96F2D008F3CA1 /* Promises in Frameworks */ = {isa = PBXBuildFile; productRef = 66E8BBF625E96F2D008F3CA1 /* Promises */; };
 		66E8BBFD25E96FD6008F3CA1 /* MainViewMac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8BBFC25E96FD6008F3CA1 /* MainViewMac.swift */; };
 		66E8BC0B25E9FB0F008F3CA1 /* AddFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8BC0A25E9FB0F008F3CA1 /* AddFeedView.swift */; };
+		66E8BC1125EA8E7A008F3CA1 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8BC1025EA8E7A008F3CA1 /* FeedItem.swift */; };
+		66E8BC1225EA8E7A008F3CA1 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8BC1025EA8E7A008F3CA1 /* FeedItem.swift */; };
+		66E8BC3025EA9253008F3CA1 /* CreateFeedItemSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8BC2F25EA9253008F3CA1 /* CreateFeedItemSchema.swift */; };
+		66E8BC3125EA9253008F3CA1 /* CreateFeedItemSchema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8BC2F25EA9253008F3CA1 /* CreateFeedItemSchema.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +96,8 @@
 		66BD105F25E73C1100383A3A /* SourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceView.swift; sourceTree = "<group>"; };
 		66E8BBFC25E96FD6008F3CA1 /* MainViewMac.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewMac.swift; sourceTree = "<group>"; };
 		66E8BC0A25E9FB0F008F3CA1 /* AddFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFeedView.swift; sourceTree = "<group>"; };
+		66E8BC1025EA8E7A008F3CA1 /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
+		66E8BC2F25EA9253008F3CA1 /* CreateFeedItemSchema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFeedItemSchema.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +215,7 @@
 			children = (
 				6651F71125DE034800ABF420 /* Components */,
 				66323A6C25DCB44B00410184 /* MainView.swift */,
+				66BD105F25E73C1100383A3A /* SourceView.swift */,
 				66323ABC25DCB81300410184 /* SidebarView.swift */,
 			);
 			path = Views;
@@ -248,7 +255,6 @@
 			children = (
 				6651F71225DE039800ABF420 /* FeedURLInput.swift */,
 				66A89CAA25E46CB000459963 /* FeedCategoryPicker.swift */,
-				66BD105F25E73C1100383A3A /* SourceView.swift */,
 				66E8BC0A25E9FB0F008F3CA1 /* AddFeedView.swift */,
 			);
 			path = Components;
@@ -258,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				66A89CB925E495B700459963 /* CreateTablesMigration.swift */,
+				66E8BC2F25EA9253008F3CA1 /* CreateFeedItemSchema.swift */,
 			);
 			path = Migrations;
 			sourceTree = "<group>";
@@ -267,6 +274,7 @@
 			children = (
 				66A89CCC25E49D2200459963 /* Category.swift */,
 				66A89CDB25E6AD1400459963 /* Source.swift */,
+				66E8BC1025EA8E7A008F3CA1 /* FeedItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -459,6 +467,8 @@
 				66323AE125DD8FA900410184 /* MainViewMobile.swift in Sources */,
 				6651F71325DE039800ABF420 /* FeedURLInput.swift in Sources */,
 				66323A9625DCB44C00410184 /* MainView.swift in Sources */,
+				66E8BC1125EA8E7A008F3CA1 /* FeedItem.swift in Sources */,
+				66E8BC3025EA9253008F3CA1 /* CreateFeedItemSchema.swift in Sources */,
 				66323A9425DCB44C00410184 /* RSSReaderApp.swift in Sources */,
 				66323AD125DCBEB900410184 /* Store.swift in Sources */,
 				66A89CCD25E49D2200459963 /* Category.swift in Sources */,
@@ -475,11 +485,13 @@
 				66323AD625DCBF8900410184 /* Store.swift in Sources */,
 				66323AAE25DCB48000410184 /* SettingsViewMac.swift in Sources */,
 				66E8BC0B25E9FB0F008F3CA1 /* AddFeedView.swift in Sources */,
+				66E8BC3125EA9253008F3CA1 /* CreateFeedItemSchema.swift in Sources */,
 				66A89CAC25E46CB000459963 /* FeedCategoryPicker.swift in Sources */,
 				66A89CBB25E495B700459963 /* CreateTablesMigration.swift in Sources */,
 				6651F71425DE039800ABF420 /* FeedURLInput.swift in Sources */,
 				66323A9725DCB44C00410184 /* MainView.swift in Sources */,
 				66E8BBFD25E96FD6008F3CA1 /* MainViewMac.swift in Sources */,
+				66E8BC1225EA8E7A008F3CA1 /* FeedItem.swift in Sources */,
 				66323ABD25DCB81300410184 /* SidebarView.swift in Sources */,
 				66BD106125E73C1100383A3A /* SourceView.swift in Sources */,
 				66323A9525DCB44C00410184 /* RSSReaderApp.swift in Sources */,

@@ -29,6 +29,8 @@ final class Source: Model, Hashable {
   @Timestamp(key: "created_at", on: .create, format: .iso8601) var createdAt: Date?
   @Timestamp(key: "updated_at", on: .update, format: .iso8601) var updatedAt: Date?
   
+  @Children(for: \.$source) var feedItems: [FeedItem]
+  
   init() {}
   
   init(name: String, feedUrl: String, link: String, type: SourceType = .RSS) {

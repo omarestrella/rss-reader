@@ -58,6 +58,7 @@ struct DatabaseManager {
     let migrations = Migrations()
     migrations.add([
       CreateTablesMigration(),
+      CreateFeedItemSchema()
     ])
     migrator = Migrator(databases: databases, migrations: migrations, logger: .init(label: "database.migrator"), on: eventLoopGroup.next())
   }
@@ -100,6 +101,12 @@ struct DatabaseManager {
     return Promise { resolve, reject in
       do {
         try category.$sources.create(source, on: db).wait()
+        if let items = source._feed?.rssFeed?.items {
+          let feedItems = items.map {
+            FeedItem(feedItem: $0)
+          }
+          try source.$feedItems.create(feedItems, on: db).wait()
+        }
         resolve(())
       } catch {
         reject(error)
@@ -113,6 +120,8 @@ struct DatabaseManager {
     }
     return Promise { resolve, reject in
       do {
+        let feedItems = try source.$feedItems.query(on: db).all().wait()
+        try feedItems.delete(on: db).wait()
         try source.delete(on: db).wait()
         resolve(())
       } catch {
@@ -126,8 +135,10 @@ struct DatabaseManager {
       return Promise(DatabaseError.NoConnection)
     }
     return Promise { resolve, reject in
-      Category.query(on: db).with(\.$sources) {
-        source in source.with(\.$category)
+      Category.query(on: db).with(\.$sources) { source in
+        source
+          .with(\.$category)
+//          .with(\.$feedItems)
       }.all().whenComplete { result in
         switch result {
         case let .success(categories):

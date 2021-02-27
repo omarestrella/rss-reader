@@ -83,6 +83,10 @@ struct SidebarView: View {
       AddFeedView(store: store)
         .padding()
         .frame(minWidth: 300, maxWidth: 300)
+    }.onAppear {
+      if !store.initialized {
+        self.addingNewFeed = true
+      }
     }
   }
 

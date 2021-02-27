@@ -80,11 +80,13 @@ struct AddFeedView: View {
         Spacer()
       }
 
-      Text("Welcome to Columns, a simple RSS reader. Let's get you started by adding a new feed to follow.")
-        .font(.callout)
-        .multilineTextAlignment(.center)
-        .fixedSize(horizontal: false, vertical: true)
-        .padding(.bottom, 3)
+      if !store.initialized {
+        Text("Welcome to Columns, a simple RSS reader. Let's get you started by adding a new feed to follow.")
+          .font(.callout)
+          .multilineTextAlignment(.center)
+          .fixedSize(horizontal: false, vertical: true)
+          .padding(.bottom, 3)
+      }
 
       VStack {
         FeedURLInput(value: $model.feedUrl, submit: {}) {

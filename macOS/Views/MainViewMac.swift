@@ -15,6 +15,7 @@ struct MainViewMac: View {
   var body: some View {
     NavigationView {
       SidebarView()
+        .frame(minWidth: 175)
         .environmentObject(store)
         .listStyle(SidebarListStyle())
         .contextMenu(menuItems: {
@@ -33,7 +34,11 @@ struct MainViewMac: View {
           }
         })
       
-      Text("First Panel")
+      if store.currentSource == nil {
+        Text("Select a feed to your left, or add a new one, to get started reading")
+          .padding()
+          .multilineTextAlignment(.center)
+      }
       if false {
         Text("Second Panel")
       }
