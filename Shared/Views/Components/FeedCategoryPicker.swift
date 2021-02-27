@@ -14,18 +14,17 @@ struct FeedCategoryPicker: View {
 
   var body: some View {
     Section(header: Text("Category").font(.caption).bold()) {
-      Picker(selection: $category, label:
-        Group {
-          if let category = category {
-            Text(category.name)
-          } else {
-            Text("")
-          }
-        }) {
-        ForEach(store.categories) { c in
+      Picker(selection: $category, label: Group {
+        if let category = category {
+          Text(category.name)
+        } else {
+          Text("Default")
+        }
+      }) {
+        ForEach(store.categories, id: \.self) { c in
           Text(c.name)
         }
-      }.pickerStyle(InlinePickerStyle())
+      }
     }
   }
 }

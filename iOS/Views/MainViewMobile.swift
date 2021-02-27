@@ -22,7 +22,7 @@ struct MainViewMobile: View {
       if horizontalSizeClass == .some(.compact) {
         TabView {
           NavigationView {
-            NavigationListView()
+            SidebarView()
               .listStyle(InsetGroupedListStyle())
               .navigationTitle("Sources")
               .navigationBarTitleDisplayMode(.inline)
@@ -33,7 +33,7 @@ struct MainViewMobile: View {
         }
       } else {
         NavigationView {
-          NavigationListView()
+          SidebarView()
             .listStyle(SidebarListStyle())
             .navigationTitle("Sources")
             .toolbar {
@@ -52,10 +52,10 @@ struct MainViewMobile: View {
       }
     }
     .popover(isPresented: $showIntro, content: {
-      IntroViewMobile()
+      IntroViewMobile().environmentObject(store)
     })
     .onAppear {
-      if !store.initialized {
+      if !store.initialized && !store.loading {
         showIntro = true
       }
     }

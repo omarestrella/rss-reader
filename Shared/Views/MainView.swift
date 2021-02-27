@@ -16,17 +16,13 @@ struct MainView: View {
 
   var body: some View {
     #if os(macOS)
-    NavigationView {
-      NavigationListView()
-        .listStyle(SidebarListStyle())
-        .contextMenu(menuItems: {
-          Button(action: {}, label: {
-            Text("Add Category")
-          })
-        })
-    }
+    MainViewMac()
     #else
-    MainViewMobile()
+    if store.loading {
+      MainViewMobile().redacted(reason: .placeholder)
+    } else {
+      MainViewMobile()
+    }
     #endif
   }
 }

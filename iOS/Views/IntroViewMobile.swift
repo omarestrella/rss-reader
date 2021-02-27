@@ -39,7 +39,7 @@ enum FeedURLState: Equatable {
   }
 }
 
-private class IntroViewModel: ObservableObject {
+class IntroViewModel: ObservableObject {
   @Published var feedURLState = FeedURLState.None
   @Published var category: Category?
 
@@ -141,25 +141,43 @@ private class IntroViewModel: ObservableObject {
 
 struct IntroViewMobile: View {
   @EnvironmentObject var store: Store
-
-  @ObservedObject fileprivate var model = IntroViewModel()
+  @Environment(\.presentationMode) var presentationMode
+  
+  @ObservedObject var model = IntroViewModel()
 
   var body: some View {
     NavigationView {
       VStack(alignment: .leading) {
+        HStack {
+          Spacer()
+          Image("Logo")
+            .resizable()
+            .frame(width: 64, height: 64)
+            .cornerRadius(10)
+          Spacer()
+        }.padding(.vertical)
+
+        Text("Welcome to Columns, a simple RSS reader. Let's get you started by adding a new feed to follow.")
+          .padding(.bottom)
+        
         FeedURLInput(value: $model.feedUrl, submit: model.checkFeedUrl)
-          .padding()
+          .padding(.bottom)
 
         if model.haveFeed {
-          VStack {
+          VStack(alignment: .leading) {
             FeedCategoryPicker(category: $model.category)
-          }.padding(.bottom)
+              .pickerStyle(MenuPickerStyle())
+          }
+          .padding(.bottom)
         }
 
         HStack {
           Spacer()
           Button(action: {
-            if model.allowSubmit {
+            if model.haveFeed, let feed = model.feed {
+              store.add(url: model.feedUrl, feed: feed, category: model.category)
+              presentationMode.wrappedValue.dismiss()
+            } else if model.allowSubmit {
               model.checkFeedUrl()
             }
           }, label: {
@@ -167,6 +185,8 @@ struct IntroViewMobile: View {
               ProgressView()
             } else if model.isErrorState {
               Text(model.errorMessage)
+            } else if model.haveFeed {
+              Text("Add")
             } else {
               Text("Continue")
             }
@@ -176,15 +196,16 @@ struct IntroViewMobile: View {
 
         Spacer()
       }
+      .padding(.horizontal)
       .navigationTitle("Add Feed")
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
-        ToolbarItem(placement: .navigationBarLeading, content: {
-          Image("Logo")
-            .resizable()
-            .frame(width: 32, height: 32)
-            .cornerRadius(10)
-        })
+//        ToolbarItem(placement: .navigationBarLeading, content: {
+//          Image("Logo")
+//            .resizable()
+//            .frame(width: 32, height: 32)
+//            .cornerRadius(10)
+//        })
       }
     }
     .onAppear {
