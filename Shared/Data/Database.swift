@@ -101,7 +101,18 @@ struct DatabaseManager {
     return Promise { resolve, reject in
       do {
         try category.$sources.create(source, on: db).wait()
-        if let items = source._feed?.rssFeed?.items {
+        
+        if source.type == .RSS, let items = source._feed?.rssFeed?.items {
+          let feedItems = items.map {
+            FeedItem(feedItem: $0)
+          }
+          try source.$feedItems.create(feedItems, on: db).wait()
+        } else if source.type == .Atom, let items = source._feed?.atomFeed?.entries {
+          let feedItems = items.map {
+            FeedItem(feedItem: $0)
+          }
+          try source.$feedItems.create(feedItems, on: db).wait()
+        } else if source.type == .JSON, let items = source._feed?.jsonFeed?.items {
           let feedItems = items.map {
             FeedItem(feedItem: $0)
           }
@@ -124,6 +135,20 @@ struct DatabaseManager {
         try feedItems.delete(on: db).wait()
         try source.delete(on: db).wait()
         resolve(())
+      } catch {
+        reject(error)
+      }
+    }
+  }
+  
+  func feedItems(source: Source) -> Promise<[FeedItem]> {
+    guard let db = database else {
+      return Promise(DatabaseError.NoConnection)
+    }
+    return Promise { resolve, reject in
+      do {
+        let feedItems = try source.$feedItems.query(on: db).all().wait()
+        resolve(feedItems)
       } catch {
         reject(error)
       }

@@ -84,16 +84,11 @@ struct SidebarView: View {
         .padding()
         .frame(minWidth: 300, maxWidth: 300)
     }.onAppear {
-      if !store.initialized {
-        self.addingNewFeed = true
+      if !store.initialized && !store.loading {
+        DispatchQueue.main.async {
+          self.addingNewFeed = true
+        }
       }
-    }
-  }
-
-  func onDelete(index: IndexSet, category: Category) {
-    if let idx = index.first {
-      let source = category.sources[idx]
-      store.remove(source: source, category: category)
     }
   }
 }

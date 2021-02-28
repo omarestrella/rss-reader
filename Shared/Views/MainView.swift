@@ -16,7 +16,11 @@ struct MainView: View {
 
   var body: some View {
     #if os(macOS)
-    MainViewMac()
+    if store.loading {
+      MainViewMac().redacted(reason: .placeholder)
+    } else {
+      MainViewMac()
+    }
     #else
     if store.loading {
       MainViewMobile().redacted(reason: .placeholder)

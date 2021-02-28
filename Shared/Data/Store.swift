@@ -6,19 +6,19 @@
 //
 
 import Combine
-import Foundation
-import SwiftUI
 import FeedKit
+import Foundation
 import Promises
+import SwiftUI
 
 struct Notification {
   enum NotificationType {
     case Error
   }
-  
+
   var id = UUID()
   let type: NotificationType
-  
+
   init(type: NotificationType) {
     self.type = type
   }
@@ -44,9 +44,9 @@ func load(feedUrl: String) -> Promise<Feed> {
   return Promise { resolve, reject in
     parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { result in
       switch result {
-      case .failure(let parseError):
+      case let .failure(parseError):
         reject(parseError)
-      case .success(let feed):
+      case let .success(feed):
         resolve(feed)
       }
     }
@@ -56,21 +56,21 @@ func load(feedUrl: String) -> Promise<Feed> {
 class Store: ObservableObject {
   enum StoreError: Error {
     case FeedError
-    case FeedParseError
+    case FeedParseError(_ reason: String? = nil)
   }
-  
+
   @Published var sources = [Source]()
   @Published var categories = [Category]()
-  
+
   @Published var currentSource: Source?
   @Published var currentRSSFeedItem: RSSFeedItem?
-  
+
   @Published var loading = false
-  
+
   @AppStorage("initialized") private var initializeStore = "no"
-  
+
   var database: DatabaseManager
-  
+
   var initialized: Bool {
     get {
       initializeStore == "yes"
@@ -112,36 +112,45 @@ class Store: ObservableObject {
   func add(category: Category) {
     categories.append(category)
   }
-  
+
   func add(url: String, feed: Feed, category: Category? = nil) -> Promise<Source> {
+    if initialized == true {
+      initialized = false
+    }
     var possibleCategory = category
     if category == nil {
       possibleCategory = categories.first(where: { $0.isDefault })
     }
-    guard let category = possibleCategory else { return Promise(StoreError.FeedParseError) }
-    guard let rssFeed = feed.rssFeed else { return Promise(StoreError.FeedParseError) }
-    guard let title = rssFeed.title else { return Promise(StoreError.FeedParseError) }
-    guard let link = rssFeed.link else { return Promise(StoreError.FeedParseError) }
-    let source = Source(name: title, feedUrl: url, link: link)
-    source._feed = feed
-    return database.add(source: source, category: category).then {
-      self.sources.append(source)
-      return Promise(source)
-    }.catch { error in
-      debugPrint("ERROR:", error)
+    
+    guard let category = possibleCategory else { return Promise(StoreError.FeedParseError("Default Category Not Found")) }
+    do {
+      let source = try Source(feed: feed, feedUrl: url)
+      source._feed = feed
+      return database.add(source: source, category: category).then {
+        self.sources.append(source)
+        return Promise(source)
+      }.catch { error in
+        debugPrint("ERROR:", error)
+      }
+    } catch {
+      return Promise(error)
     }
   }
-  
+
   func remove(source: Source) {
     sources.removeAll(where: { $0.id == source.id })
     _ = database.delete(source: source)
   }
-  
-  func remove(source: Source, category: Category) {
+
+  func remove(source: Source, category _: Category) {
     sources.removeAll(where: { $0.id == source.id })
   }
-  
+
   func loadFeed(feedUrl: String) -> Promise<Feed> {
     load(feedUrl: feedUrl)
+  }
+
+  func feedItems(source: Source) -> Promise<[FeedItem]> {
+    database.feedItems(source: source)
   }
 }

@@ -21,12 +21,14 @@
 		66323AD125DCBEB900410184 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66323AD025DCBEB900410184 /* Store.swift */; };
 		66323AD625DCBF8900410184 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66323AD025DCBEB900410184 /* Store.swift */; };
 		66323AE125DD8FA900410184 /* MainViewMobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66323AE025DD8FA900410184 /* MainViewMobile.swift */; };
+		664A44DB25EB48230021BD41 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 664A44DA25EB48230021BD41 /* SwiftSoup */; };
 		6651F70525DDC01100ABF420 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F70425DDC01100ABF420 /* Database.swift */; };
 		6651F70625DDC01100ABF420 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F70425DDC01100ABF420 /* Database.swift */; };
 		6651F70C25DDFB6800ABF420 /* IntroViewMobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F70B25DDFB6800ABF420 /* IntroViewMobile.swift */; };
 		6651F71325DE039800ABF420 /* FeedURLInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F71225DE039800ABF420 /* FeedURLInput.swift */; };
 		6651F71425DE039800ABF420 /* FeedURLInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F71225DE039800ABF420 /* FeedURLInput.swift */; };
 		6651F71B25DF2FCA00ABF420 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6651F71A25DF2FCA00ABF420 /* FeedKit */; };
+		666E53F425EA9CEB00B0F565 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 666E53F325EA9CEB00B0F565 /* Nuke */; };
 		66A89CAB25E46CB000459963 /* FeedCategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A89CAA25E46CB000459963 /* FeedCategoryPicker.swift */; };
 		66A89CAC25E46CB000459963 /* FeedCategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A89CAA25E46CB000459963 /* FeedCategoryPicker.swift */; };
 		66A89CB325E4955100459963 /* FluentSQLiteDriver in Frameworks */ = {isa = PBXBuildFile; productRef = 66A89CB225E4955100459963 /* FluentSQLiteDriver */; };
@@ -73,7 +75,7 @@
 		66323A6D25DCB44C00410184 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66323A7225DCB44C00410184 /* RSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66323A7525DCB44C00410184 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		66323A7A25DCB44C00410184 /* RSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		66323A7A25DCB44C00410184 /* Columns.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Columns.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66323A7C25DCB44C00410184 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66323A7D25DCB44C00410184 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		66323A8225DCB44C00410184 /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +120,8 @@
 				66E8BBF525E96F2D008F3CA1 /* FluentSQLiteDriver in Frameworks */,
 				66E8BBF325E96F2D008F3CA1 /* FeedKit in Frameworks */,
 				66E8BBF725E96F2D008F3CA1 /* Promises in Frameworks */,
+				666E53F425EA9CEB00B0F565 /* Nuke in Frameworks */,
+				664A44DB25EB48230021BD41 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,7 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				66323A7225DCB44C00410184 /* RSSReader.app */,
-				66323A7A25DCB44C00410184 /* RSSReader.app */,
+				66323A7A25DCB44C00410184 /* Columns.app */,
 				66323A8225DCB44C00410184 /* Tests iOS.xctest */,
 				66323A8D25DCB44C00410184 /* Tests macOS.xctest */,
 			);
@@ -328,9 +332,11 @@
 				66E8BBF225E96F2D008F3CA1 /* FeedKit */,
 				66E8BBF425E96F2D008F3CA1 /* FluentSQLiteDriver */,
 				66E8BBF625E96F2D008F3CA1 /* Promises */,
+				666E53F325EA9CEB00B0F565 /* Nuke */,
+				664A44DA25EB48230021BD41 /* SwiftSoup */,
 			);
 			productName = "RSSReader (macOS)";
-			productReference = 66323A7A25DCB44C00410184 /* RSSReader.app */;
+			productReference = 66323A7A25DCB44C00410184 /* Columns.app */;
 			productType = "com.apple.product-type.application";
 		};
 		66323A8125DCB44C00410184 /* Tests iOS */ = {
@@ -407,6 +413,8 @@
 				6651F71925DF2FCA00ABF420 /* XCRemoteSwiftPackageReference "FeedKit" */,
 				66A89CB125E4955100459963 /* XCRemoteSwiftPackageReference "fluent-sqlite-driver" */,
 				66BD104425E70AD300383A3A /* XCRemoteSwiftPackageReference "promises" */,
+				666E53F225EA9CEB00B0F565 /* XCRemoteSwiftPackageReference "Nuke" */,
+				664A44D925EB48230021BD41 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 66323A7325DCB44C00410184 /* Products */;
 			projectDirPath = "";
@@ -706,7 +714,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.bitcreative.RSSReader;
-				PRODUCT_NAME = RSSReader;
+				PRODUCT_NAME = Columns;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -731,7 +739,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.bitcreative.RSSReader;
-				PRODUCT_NAME = RSSReader;
+				PRODUCT_NAME = Columns;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -877,12 +885,28 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		664A44D925EB48230021BD41 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.2;
+			};
+		};
 		6651F71925DF2FCA00ABF420 /* XCRemoteSwiftPackageReference "FeedKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nmdias/FeedKit";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 9.1.2;
+			};
+		};
+		666E53F225EA9CEB00B0F565 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.3.0;
 			};
 		};
 		66A89CB125E4955100459963 /* XCRemoteSwiftPackageReference "fluent-sqlite-driver" */ = {
@@ -904,10 +928,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		664A44DA25EB48230021BD41 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 664A44D925EB48230021BD41 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
 		6651F71A25DF2FCA00ABF420 /* FeedKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6651F71925DF2FCA00ABF420 /* XCRemoteSwiftPackageReference "FeedKit" */;
 			productName = FeedKit;
+		};
+		666E53F325EA9CEB00B0F565 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 666E53F225EA9CEB00B0F565 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
 		};
 		66A89CB225E4955100459963 /* FluentSQLiteDriver */ = {
 			isa = XCSwiftPackageProductDependency;

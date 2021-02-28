@@ -113,6 +113,8 @@ struct AddFeedView: View {
                 store.currentSource = source
               }
               presentationMode.wrappedValue.dismiss()
+            }.catch { error in
+              debugPrint("AddFeedView Add Feed:", error)
             }
           }
         }, label: {

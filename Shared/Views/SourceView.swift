@@ -9,44 +9,24 @@ import SwiftUI
 import FeedKit
 
 class SourceViewModel: ObservableObject {
-  enum FeedState {
-    case Loading
-    case Error
-    case Loaded(feed: Feed)
-  }
-  
   @Published var state = FeedState.Loading
+  @Published var feed: Feed?
+  @Published var loading = false
+  @Published var feedItems = [FeedItem]()
   
   var source: Source
   
   init(source: Source) {
     self.source = source
-    
-    self.source.feed.then { feed in
-      self.state = .Loaded(feed: feed)
-    }
   }
   
-  var loading: Bool {
-    switch state {
-    case .Loading:
-      return true
-    default:
-      return false
-    }
-  }
-  
-  var rssFeed: RSSFeed {
-    let defaultFeed = RSSFeed()
-    switch state {
-    case .Loaded(let feed):
-      if let rss = feed.rssFeed {
-        return rss
+  func loadFeedItems(store: Store) {
+    self.loading = true
+    store.feedItems(source: source)
+      .then { self.feedItems.append(contentsOf: $0) }
+      .always {
+        self.loading = false
       }
-      return defaultFeed
-    default:
-      return defaultFeed
-    }
   }
 }
 
@@ -61,14 +41,27 @@ struct SourceView: View {
   var body: some View {
     List {
       if model.loading {
-        Text("Loading?")
+        Text("Syncing?")
       } else {
-        ForEach(model.rssFeed.items ?? [], id: \.title) { (item: RSSFeedItem) in
-          NavigationLink(destination: Text(item.title ?? ""), label: {
-            Text(item.title ?? "")
+        ForEach(model.feedItems, id: \.id) { item in
+          NavigationLink(destination: ScrollView { Text("FEED") }, label: {
+            VStack {
+              HStack {
+                VStack(alignment: .leading) {
+                  Text(item.title)
+                    .font(.callout)
+                    .bold()
+                  Text(item.content)
+                    .lineLimit(1)
+                    .font(.callout)
+                }
+              }
+            }
           })
         }
       }
+    }.onAppear {
+      model.loadFeedItems(store: store)
     }
   }
 }
