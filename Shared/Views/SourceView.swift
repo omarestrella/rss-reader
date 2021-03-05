@@ -5,23 +5,24 @@
 //  Created by Omar Estrella on 2/24/21.
 //
 
-import SwiftUI
 import FeedKit
+import ReadabilityKit
+import SwiftUI
 
 class SourceViewModel: ObservableObject {
   @Published var state = FeedState.Loading
   @Published var feed: Feed?
   @Published var loading = false
   @Published var feedItems = [FeedItem]()
-  
+
   var source: Source
-  
+
   init(source: Source) {
     self.source = source
   }
-  
+
   func loadFeedItems(store: Store) {
-    self.loading = true
+    loading = true
     store.feedItems(source: source)
       .then { self.feedItems.append(contentsOf: $0) }
       .always {
@@ -30,26 +31,34 @@ class SourceViewModel: ObservableObject {
   }
 }
 
+struct SourceItemView: View {
+  @State var feed: FeedItem
+
+  var body: some View {
+    BrowserView(text: feed.content)
+  }
+}
+
 struct SourceView: View {
   @EnvironmentObject var store: Store
   @ObservedObject var model: SourceViewModel
-  
+
   init(source: Source) {
-    self.model = SourceViewModel(source: source)
+    model = SourceViewModel(source: source)
   }
 
   var body: some View {
     List {
       if model.loading {
-        Text("Syncing?")
+        Text("")
       } else {
         ForEach(model.feedItems, id: \.id) { item in
-          NavigationLink(destination: ScrollView { Text("FEED") }, label: {
+          NavigationLink(destination: SourceItemView(feed: item), label: {
             VStack {
               HStack {
                 VStack(alignment: .leading) {
                   Text(item.title)
-                    .font(.callout)
+                    .font(.system(size: 13))
                     .bold()
                   Text(item.content)
                     .lineLimit(1)
@@ -60,16 +69,34 @@ struct SourceView: View {
           })
         }
       }
-    }.onAppear {
+    }
+    .frame(minWidth: 300)
+    .toolbar {
+      ToolbarItem(placement: .primaryAction) {
+        Button(action: {}, label: {
+          Label("Reload", systemImage: "arrow.clockwise.circle")
+            .labelStyle(IconOnlyLabelStyle())
+        })
+      }
+
+      ToolbarItem(placement: .principal) {
+        if store.loading {
+          Text("Loading")
+        } else {
+          Text(store.currentSource?.name ?? "")
+        }
+      }
+    }
+    .onAppear {
       model.loadFeedItems(store: store)
     }
   }
 }
 
-//#if DEBUG
-//struct SourceView_Previews: PreviewProvider {
+// #if DEBUG
+// struct SourceView_Previews: PreviewProvider {
 //  static var previews: some View {
 //    SourceView()
 //  }
-//}
-//#endif
+// }
+// #endif

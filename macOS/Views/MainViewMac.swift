@@ -14,47 +14,33 @@ struct MainViewMac: View {
 
   var body: some View {
     NavigationView {
-      if store.loading {
-        SidebarView()
-          .frame(minWidth: 175)
-          .environmentObject(store)
-          .redacted(reason: .placeholder)
-      } else {
-        SidebarView()
-          .frame(minWidth: 175)
-          .environmentObject(store)
-          .listStyle(SidebarListStyle())
-          .contextMenu(menuItems: {
-            Button(action: {}, label: {
-              Text("Add Category")
+      SidebarView()
+        .frame(minWidth: 175)
+        .environmentObject(store)
+        .listStyle(SidebarListStyle())
+        .contextMenu(menuItems: {
+          Button(action: {}, label: {
+            Text("Add Category")
+          })
+        })
+        .toolbar(content: {
+          ToolbarItem(placement: .primaryAction) {
+            Button(action: {
+              NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
+            }, label: {
+              Label("Toggle Sidebar", systemImage: "sidebar.leading")
+                .labelStyle(IconOnlyLabelStyle())
             })
-          })
-          .toolbar(content: {
-            ToolbarItem(placement: .primaryAction) {
-              Button(action: {
-                NSApp.keyWindow?.firstResponder?.tryToPerform(#selector(NSSplitViewController.toggleSidebar(_:)), with: nil)
-              }, label: {
-                Label("Toggle Sidebar", systemImage: "sidebar.leading")
-                  .labelStyle(IconOnlyLabelStyle())
-              })
-            }
+          }
+        })
 
-//          ToolbarItem(placement: .principal) {
-//            Button(action: {}, label: {
-//              Label("Reload", systemImage: "reload.circle")
-//                .labelStyle(IconOnlyLabelStyle())
-//            })
-//          }
-          })
-
-        if store.currentSource == nil {
-          Text("Select a feed to your left, or add a new one, to get started reading")
-            .padding()
-            .multilineTextAlignment(.center)
-        }
-        if false {
-          Text("Second Panel")
-        }
+      if store.currentSource == nil {
+        Text("Select a feed to your left, or add a new one, to get started reading")
+          .padding()
+          .multilineTextAlignment(.center)
+      }
+      if false {
+        Text("Second Panel")
       }
     }
   }

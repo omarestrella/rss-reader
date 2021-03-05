@@ -162,7 +162,6 @@ func getId(_ feed: Feed) -> String {
 func getIcon(_ feed: Feed) -> String? {
   switch feed {
   case .json(let json):
-    json.userComment
     return json.icon
   case .rss(let rss):
     return rss.image?.url

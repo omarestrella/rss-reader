@@ -85,7 +85,7 @@ class Store: ObservableObject {
   }
 
   init() {
-    loading = true
+    self.loading = true
     database = DatabaseManager()
     _ = database.initialize().then {
       self.database.getCategories()
@@ -97,11 +97,12 @@ class Store: ObservableObject {
           .then { _ in self.database.getCategories() }
       }
       return Promise(categories)
-    }.then { categories in
+    }.then { categories -> Promise<Void> in
       self.categories.append(contentsOf: categories)
       categories.forEach { category in
         self.sources.append(contentsOf: category.sources)
       }
+      return self.fetchFeedItems()
     }.catch { error in
       debugPrint("Error:", error)
     }.always {
@@ -152,5 +153,14 @@ class Store: ObservableObject {
 
   func feedItems(source: Source) -> Promise<[FeedItem]> {
     database.feedItems(source: source)
+  }
+  
+  func fetchFeedItems() -> Promise<Void> {
+    return Promise { resolve, reject in
+      let promises = self.sources.map { source in
+        self.database.update(source: source)
+      }
+      all(promises).then { _ in resolve(()) }
+    }
   }
 }

@@ -38,6 +38,15 @@
         }
       },
       {
+        "package": "Ji",
+        "repositoryURL": "https://github.com/honghaoz/Ji",
+        "state": {
+          "branch": null,
+          "revision": "a37a310cc6aaf999de4bee953a9680bf9b629200",
+          "version": "5.1.0"
+        }
+      },
+      {
         "package": "Nuke",
         "repositoryURL": "https://github.com/kean/Nuke",
         "state": {
@@ -53,6 +62,15 @@
           "branch": null,
           "revision": "afa9a1ace74e116848d4f743599ab83e584ff8cb",
           "version": "1.2.12"
+        }
+      },
+      {
+        "package": "ReadabilityKit",
+        "repositoryURL": "https://github.com/omichde/ReadabilityKit",
+        "state": {
+          "branch": "master",
+          "revision": "a3d5a3a0f16f3e8419a081b2fbc6ce2dc0753c9f",
+          "version": null
         }
       },
       {

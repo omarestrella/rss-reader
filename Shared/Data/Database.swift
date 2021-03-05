@@ -58,7 +58,7 @@ struct DatabaseManager {
     let migrations = Migrations()
     migrations.add([
       CreateTablesMigration(),
-      CreateFeedItemSchema()
+      CreateFeedItemSchema(),
     ])
     migrator = Migrator(databases: databases, migrations: migrations, logger: .init(label: "database.migrator"), on: eventLoopGroup.next())
   }
@@ -101,7 +101,7 @@ struct DatabaseManager {
     return Promise { resolve, reject in
       do {
         try category.$sources.create(source, on: db).wait()
-        
+
         if source.type == .RSS, let items = source._feed?.rssFeed?.items {
           let feedItems = items.map {
             FeedItem(feedItem: $0)
@@ -124,7 +124,44 @@ struct DatabaseManager {
       }
     }
   }
-  
+
+  func update(source: Source) -> Promise<Void> {
+    guard let db = database else {
+      return Promise(DatabaseError.NoConnection)
+    }
+    return Promise { resolve, reject in
+      do {
+        load(feedUrl: source.feedUrl).then { result in
+          var feedItems: [FeedItem] = []
+          switch result {
+          case let .atom(atomFeed):
+            if let entries = atomFeed.entries {
+              feedItems = entries.map { FeedItem(feedItem: $0) }
+            }
+          case let .json(jsonFeed):
+            if let entries = jsonFeed.items {
+              feedItems = entries.map { FeedItem(feedItem: $0) }
+            }
+          case let .rss(rssFeed):
+            if let entries = rssFeed.items {
+              feedItems = entries.map { FeedItem(feedItem: $0) }
+            }
+          }
+          do {
+            try source.$feedItems.load(on: db).wait()
+            let newFeedItems = feedItems.filter { feedItem in
+              !source.feedItems.contains(where: { $0.link == feedItem.link })
+            }
+            try source.$feedItems.create(newFeedItems, on: db).wait()
+            resolve(())
+          } catch {
+            reject(error)
+          }
+        }
+      }
+    }
+  }
+
   func delete(source: Source) -> Promise<Void> {
     guard let db = database else {
       return Promise(DatabaseError.NoConnection)
@@ -140,7 +177,7 @@ struct DatabaseManager {
       }
     }
   }
-  
+
   func feedItems(source: Source) -> Promise<[FeedItem]> {
     guard let db = database else {
       return Promise(DatabaseError.NoConnection)
@@ -163,7 +200,6 @@ struct DatabaseManager {
       Category.query(on: db).with(\.$sources) { source in
         source
           .with(\.$category)
-//          .with(\.$feedItems)
       }.all().whenComplete { result in
         switch result {
         case let .success(categories):
