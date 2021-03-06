@@ -46,13 +46,25 @@ struct SourceView: View {
   init(source: Source) {
     model = SourceViewModel(source: source)
   }
+  
+  var sortedItems: [FeedItem] {
+    model.feedItems.sorted(by: { a, b in
+      if let aDate = a.pubDate, let bDate = b.pubDate {
+        if aDate < bDate {
+          return false
+        }
+        return true
+      }
+      return false
+    })
+  }
 
   var body: some View {
     List {
       if model.loading {
         Text("")
       } else {
-        ForEach(model.feedItems, id: \.id) { item in
+        ForEach(sortedItems, id: \.id) { item in
           NavigationLink(destination: SourceItemView(feed: item), label: {
             VStack {
               HStack {
