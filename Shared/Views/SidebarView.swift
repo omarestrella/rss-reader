@@ -6,39 +6,32 @@
 //
 
 import FeedKit
+import FetchImage
 import SwiftUI
 
-struct CategorySectionView: View {
-  @EnvironmentObject var store: Store
+struct SidebarEntry: View {
+  var source: Source
 
-  var category: Category
-  var onDelete: (_: IndexSet, _: Category) -> Void
-
-  @State var expanded: Bool = false
-  @State var currentSource: Source?
-
-  init(category: Category, onDelete: @escaping (_: IndexSet, _: Category) -> Void) {
-    self.category = category
-    self.onDelete = onDelete
-  }
+  @StateObject private var image = FetchImage()
 
   var body: some View {
-    if category.sources.isEmpty == true {
-      Button(action: {}, label: {
-        Text("Add new source")
-      })
-    } else {
-      DisclosureGroup(isExpanded: $expanded, content: {
-        ForEach(category.sources, id: \.self) { source in
-          NavigationLink(destination: Text("Source: \(source.name) \(source.feedUrl)"), tag: source, selection: $currentSource) {
-            Text(source.name)
-          }
-        }.onDelete(perform: {
-          onDelete($0, category)
-        })
-      }, label: {
-        Text(category.name)
-      })
+    HStack {
+      if let _ = source.icon, let imageView = image.view {
+        imageView
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(width: 16, height: 16)
+      } else {
+        Text("")
+          .frame(width: 16, height: 16)
+      }
+      Text(source.name)
+    }.onAppear {
+      if let icon = source.icon, let url = URL(string: icon) {
+        image.load(url)
+      }
+    }.onDisappear {
+      image.reset()
     }
   }
 }
@@ -49,40 +42,34 @@ struct SidebarView: View {
   @State var addingNewFeed = false
 
   var body: some View {
-    VStack {
-      if !store.sources.isEmpty {
-        List(store.sources, id: \.id) { source in
-          NavigationLink(destination: SourceView(source: source), tag: source, selection: $store.currentSource) {
-            Text(source.name)
-          }.contextMenu {
-            Button(action: {
-              if let currentSource = store.currentSource, currentSource == source {
-                store.currentSource = nil
-              }
-              store.remove(source: source)
-            }, label: {
-              Text("Delete")
-            })
+    List(store.sources, id: \.id) { source in
+      NavigationLink(destination: SourceView(source: source), tag: source, selection: $store.currentSource) {
+        SidebarEntry(source: source)
+      }.contextMenu {
+        Button(action: {
+          if let currentSource = store.currentSource, currentSource == source {
+            store.currentSource = nil
           }
-        }
-      } else {
-        EmptyView()
-        Spacer()
+          store.remove(source: source)
+        }, label: {
+          Text("Delete")
+        })
       }
-
-      #if os(macOS)
-      HStack(alignment: .center) {
+    }
+    .navigationTitle("Feeds")
+    .toolbar {
+      ToolbarItem(placement: .navigationBarTrailing) {
         Button(action: {
           addingNewFeed.toggle()
         }, label: {
-          Label("Add a Feed", systemImage: "plus.circle")
-        }).buttonStyle(LinkButtonStyle())
-      }.padding(.bottom)
-      #endif
-    }.sheet(isPresented: $addingNewFeed) {
+          Label("Add New Feed", systemImage: "plus.circle")
+            .labelStyle(IconOnlyLabelStyle())
+        })
+      }
+    }
+    .sheet(isPresented: $addingNewFeed) {
       AddFeedView(store: store)
         .padding()
-        .frame(minWidth: 300, maxWidth: 300)
     }.onAppear {
       if !store.initialized && !store.loading {
         DispatchQueue.main.async {

@@ -25,13 +25,18 @@
 		664A44E125EC2D700021BD41 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664A44E025EC2D700021BD41 /* BrowserView.swift */; };
 		664A44E225EC2D700021BD41 /* BrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664A44E025EC2D700021BD41 /* BrowserView.swift */; };
 		664A44F825ED858D0021BD41 /* ReadabilityKit in Frameworks */ = {isa = PBXBuildFile; productRef = 664A44F725ED858D0021BD41 /* ReadabilityKit */; };
+		664A44FF25F454210021BD41 /* FetchImage in Frameworks */ = {isa = PBXBuildFile; productRef = 664A44FE25F454210021BD41 /* FetchImage */; };
 		6651F70525DDC01100ABF420 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F70425DDC01100ABF420 /* Database.swift */; };
 		6651F70625DDC01100ABF420 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F70425DDC01100ABF420 /* Database.swift */; };
-		6651F70C25DDFB6800ABF420 /* IntroViewMobile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F70B25DDFB6800ABF420 /* IntroViewMobile.swift */; };
 		6651F71325DE039800ABF420 /* FeedURLInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F71225DE039800ABF420 /* FeedURLInput.swift */; };
 		6651F71425DE039800ABF420 /* FeedURLInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6651F71225DE039800ABF420 /* FeedURLInput.swift */; };
 		6651F71B25DF2FCA00ABF420 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6651F71A25DF2FCA00ABF420 /* FeedKit */; };
 		666E53F425EA9CEB00B0F565 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 666E53F325EA9CEB00B0F565 /* Nuke */; };
+		668CE1EB25F5758C00453DED /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 668CE1EA25F5758C00453DED /* Nuke */; };
+		668CE1ED25F5758C00453DED /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 668CE1EC25F5758C00453DED /* SwiftSoup */; };
+		668CE1EF25F5758C00453DED /* ReadabilityKit in Frameworks */ = {isa = PBXBuildFile; productRef = 668CE1EE25F5758C00453DED /* ReadabilityKit */; };
+		668CE1F125F5758C00453DED /* FetchImage in Frameworks */ = {isa = PBXBuildFile; productRef = 668CE1F025F5758C00453DED /* FetchImage */; };
+		668CE1F625F575D900453DED /* AddFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8BC0A25E9FB0F008F3CA1 /* AddFeedView.swift */; };
 		66A89CAB25E46CB000459963 /* FeedCategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A89CAA25E46CB000459963 /* FeedCategoryPicker.swift */; };
 		66A89CAC25E46CB000459963 /* FeedCategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A89CAA25E46CB000459963 /* FeedCategoryPicker.swift */; };
 		66A89CB325E4955100459963 /* FluentSQLiteDriver in Frameworks */ = {isa = PBXBuildFile; productRef = 66A89CB225E4955100459963 /* FluentSQLiteDriver */; };
@@ -93,7 +98,6 @@
 		66323AE025DD8FA900410184 /* MainViewMobile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewMobile.swift; sourceTree = "<group>"; };
 		664A44E025EC2D700021BD41 /* BrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserView.swift; sourceTree = "<group>"; };
 		6651F70425DDC01100ABF420 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
-		6651F70B25DDFB6800ABF420 /* IntroViewMobile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewMobile.swift; sourceTree = "<group>"; };
 		6651F71225DE039800ABF420 /* FeedURLInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedURLInput.swift; sourceTree = "<group>"; };
 		66A89CAA25E46CB000459963 /* FeedCategoryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCategoryPicker.swift; sourceTree = "<group>"; };
 		66A89CB925E495B700459963 /* CreateTablesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTablesMigration.swift; sourceTree = "<group>"; };
@@ -111,9 +115,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				668CE1EF25F5758C00453DED /* ReadabilityKit in Frameworks */,
 				66A89CB325E4955100459963 /* FluentSQLiteDriver in Frameworks */,
+				668CE1F125F5758C00453DED /* FetchImage in Frameworks */,
 				66BD104625E70AD300383A3A /* Promises in Frameworks */,
 				6651F71B25DF2FCA00ABF420 /* FeedKit in Frameworks */,
+				668CE1EB25F5758C00453DED /* Nuke in Frameworks */,
+				668CE1ED25F5758C00453DED /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +131,7 @@
 			files = (
 				664A44F825ED858D0021BD41 /* ReadabilityKit in Frameworks */,
 				66E8BBF525E96F2D008F3CA1 /* FluentSQLiteDriver in Frameworks */,
+				664A44FF25F454210021BD41 /* FetchImage in Frameworks */,
 				66E8BBF325E96F2D008F3CA1 /* FeedKit in Frameworks */,
 				66E8BBF725E96F2D008F3CA1 /* Promises in Frameworks */,
 				666E53F425EA9CEB00B0F565 /* Nuke in Frameworks */,
@@ -254,7 +263,6 @@
 			isa = PBXGroup;
 			children = (
 				66323AE025DD8FA900410184 /* MainViewMobile.swift */,
-				6651F70B25DDFB6800ABF420 /* IntroViewMobile.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -316,6 +324,10 @@
 				6651F71A25DF2FCA00ABF420 /* FeedKit */,
 				66A89CB225E4955100459963 /* FluentSQLiteDriver */,
 				66BD104525E70AD300383A3A /* Promises */,
+				668CE1EA25F5758C00453DED /* Nuke */,
+				668CE1EC25F5758C00453DED /* SwiftSoup */,
+				668CE1EE25F5758C00453DED /* ReadabilityKit */,
+				668CE1F025F5758C00453DED /* FetchImage */,
 			);
 			productName = "RSSReader (iOS)";
 			productReference = 66323A7225DCB44C00410184 /* RSSReader.app */;
@@ -341,6 +353,7 @@
 				666E53F325EA9CEB00B0F565 /* Nuke */,
 				664A44DA25EB48230021BD41 /* SwiftSoup */,
 				664A44F725ED858D0021BD41 /* ReadabilityKit */,
+				664A44FE25F454210021BD41 /* FetchImage */,
 			);
 			productName = "RSSReader (macOS)";
 			productReference = 66323A7A25DCB44C00410184 /* Columns.app */;
@@ -423,6 +436,7 @@
 				666E53F225EA9CEB00B0F565 /* XCRemoteSwiftPackageReference "Nuke" */,
 				664A44D925EB48230021BD41 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 				664A44F625ED858D0021BD41 /* XCRemoteSwiftPackageReference "ReadabilityKit" */,
+				664A44FD25F454210021BD41 /* XCRemoteSwiftPackageReference "FetchImage" */,
 			);
 			productRefGroup = 66323A7325DCB44C00410184 /* Products */;
 			projectDirPath = "";
@@ -474,9 +488,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				668CE1F625F575D900453DED /* AddFeedView.swift in Sources */,
 				66BD106025E73C1100383A3A /* SourceView.swift in Sources */,
 				66A89CBA25E495B700459963 /* CreateTablesMigration.swift in Sources */,
-				6651F70C25DDFB6800ABF420 /* IntroViewMobile.swift in Sources */,
 				66A89CAB25E46CB000459963 /* FeedCategoryPicker.swift in Sources */,
 				6651F70525DDC01100ABF420 /* Database.swift in Sources */,
 				66323AC725DCB93100410184 /* SidebarView.swift in Sources */,
@@ -911,6 +925,14 @@
 				kind = branch;
 			};
 		};
+		664A44FD25F454210021BD41 /* XCRemoteSwiftPackageReference "FetchImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/FetchImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.0;
+			};
+		};
 		6651F71925DF2FCA00ABF420 /* XCRemoteSwiftPackageReference "FeedKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nmdias/FeedKit";
@@ -956,6 +978,11 @@
 			package = 664A44F625ED858D0021BD41 /* XCRemoteSwiftPackageReference "ReadabilityKit" */;
 			productName = ReadabilityKit;
 		};
+		664A44FE25F454210021BD41 /* FetchImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 664A44FD25F454210021BD41 /* XCRemoteSwiftPackageReference "FetchImage" */;
+			productName = FetchImage;
+		};
 		6651F71A25DF2FCA00ABF420 /* FeedKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6651F71925DF2FCA00ABF420 /* XCRemoteSwiftPackageReference "FeedKit" */;
@@ -965,6 +992,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 666E53F225EA9CEB00B0F565 /* XCRemoteSwiftPackageReference "Nuke" */;
 			productName = Nuke;
+		};
+		668CE1EA25F5758C00453DED /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 666E53F225EA9CEB00B0F565 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		668CE1EC25F5758C00453DED /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 664A44D925EB48230021BD41 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+		668CE1EE25F5758C00453DED /* ReadabilityKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 664A44F625ED858D0021BD41 /* XCRemoteSwiftPackageReference "ReadabilityKit" */;
+			productName = ReadabilityKit;
+		};
+		668CE1F025F5758C00453DED /* FetchImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 664A44FD25F454210021BD41 /* XCRemoteSwiftPackageReference "FetchImage" */;
+			productName = FetchImage;
 		};
 		66A89CB225E4955100459963 /* FluentSQLiteDriver */ = {
 			isa = XCSwiftPackageProductDependency;

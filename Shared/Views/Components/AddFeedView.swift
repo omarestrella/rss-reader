@@ -70,58 +70,63 @@ struct AddFeedView: View {
   }
 
   var body: some View {
-    VStack {
-      HStack {
-        Text("Add Feed")
-          .font(.largeTitle)
-          .bold()
-          .padding(.bottom, 3)
+    NavigationView {
+      VStack(alignment: .center) {
+        if !store.initialized {
+          HStack {
+            Image("Logo")
+              .resizable()
+              .frame(width: 128, height: 128)
+            Text("Welcome to Columns, a simple RSS reader. Let's get you started by adding a new feed to follow.")
+              .font(.callout)
+              .multilineTextAlignment(.leading)
+              .padding()
+          }
+        }
 
-        Spacer()
-      }
-
-      if !store.initialized {
-        Text("Welcome to Columns, a simple RSS reader. Let's get you started by adding a new feed to follow.")
-          .font(.callout)
-          .multilineTextAlignment(.center)
-          .fixedSize(horizontal: false, vertical: true)
-          .padding(.bottom, 3)
-      }
-
-      VStack {
         FeedURLInput(value: $model.feedUrl, submit: {}) {
           HStack {
             Text("URL").font(.caption).bold().offset(x: 0, y: 5)
           }
-        }.textFieldStyle(PlainTextFieldStyle())
-      }.padding(.bottom)
+        }
 
-      HStack {
         Spacer()
+      }
+      .padding()
+      .navigationTitle("Add Feed")
+      .toolbar {
+        ToolbarItem(placement: .navigationBarLeading) {
+          Button(action: {
+            presentationMode.wrappedValue.dismiss()
+          }, label: {
+            Text("Cancel")
+              .foregroundColor(.red)
+          }).keyboardShortcut(.cancelAction)
+        }
 
-        Button(action: {
-          presentationMode.wrappedValue.dismiss()
-        }, label: {
-          Text("Cancel")
-            .foregroundColor(.red)
-        }).keyboardShortcut(.cancelAction)
-
-        Button(action: {
-          if let feed = model.feed {
-            store.add(url: model.feedUrl, feed: feed).then { source in
-              if store.currentSource == nil {
-                store.currentSource = source
+        ToolbarItem(placement: .navigationBarTrailing) {
+          Button(action: {
+            if let feed = model.feed {
+              store.add(url: model.feedUrl, feed: feed).then { source in
+                if store.currentSource == nil {
+                  store.currentSource = source
+                }
+                presentationMode.wrappedValue.dismiss()
+              }.catch { error in
+                debugPrint("AddFeedView Add Feed:", error)
               }
-              presentationMode.wrappedValue.dismiss()
-            }.catch { error in
-              debugPrint("AddFeedView Add Feed:", error)
             }
-          }
-        }, label: {
-          Text("Add")
-        })
-          .keyboardShortcut(.return)
-          .disabled(!model.isLoaded)
+          }, label: {
+            if model.isLoading {
+              ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+            } else {
+              Text("Add").bold()
+            }
+          })
+            .keyboardShortcut(.return)
+            .disabled(!model.isLoaded)
+        }
       }
     }
   }

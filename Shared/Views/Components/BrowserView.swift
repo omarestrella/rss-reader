@@ -73,7 +73,50 @@ struct BrowserView: NSViewRepresentable {
 }
 #else
 struct BrowserView: UIViewRepresentable {
-  @Binding var text: String
+  typealias UIViewType = WKWebView
+  
+  @ObservedObject var model: BrowserViewModel
+
+  private let webView = WKWebView()
+
+  init(text: String) {
+    model = BrowserViewModel(text: text)
+  }
+  
+  func makeUIView(context: Context) -> WKWebView {
+    let css = """
+    * {
+      font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif, "Apple Color Emoji";
+    }
+    """
+    let cssScript = WKUserScript(source: css, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+    webView.configuration.userContentController.addUserScript(cssScript)
+    return webView
+  }
+
+  func updateUIView(_ uiView: WKWebView, context _: Context) {
+    let css = """
+    * {
+      font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif, "Apple Color Emoji";
+    }
+    body {
+      padding: 20px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+    """
+    let html = """
+    <!doctype html>
+    <html><head><style type="text/css">\(css)</style></head><body>\(model.text)</body></html>
+    """
+    uiView.loadHTMLString(html, baseURL: nil)
+  }
 }
 #endif
 

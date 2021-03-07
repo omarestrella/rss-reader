@@ -18,45 +18,19 @@ struct MainViewMobile: View {
   @State var showIntro = false
 
   var body: some View {
-    ZStack {
-      if horizontalSizeClass == .some(.compact) {
-        TabView {
-          NavigationView {
-            SidebarView()
-              .listStyle(InsetGroupedListStyle())
-              .navigationTitle("Sources")
-              .navigationBarTitleDisplayMode(.inline)
-          }
-          .tabItem {
-            Label("News", systemImage: "book")
-          }
-        }
+    NavigationView {
+      SidebarView()
+      
+      if let source = store.currentSource {
+        SourceView(source: source)
       } else {
-        NavigationView {
-          SidebarView()
-            .listStyle(SidebarListStyle())
-            .navigationTitle("Sources")
-            .toolbar {
-              ToolbarItem(placement: .primaryAction, content: {
-                Button(action: {
-                  showNewSourceForm.toggle()
-                }, label: {
-                  Label("Add Source", systemImage: "plus.circle")
-                    .labelStyle(IconOnlyLabelStyle())
-                })
-              })
-            }
-
-          Text("List of news stories")
-        }
+        Text("No Source")
       }
-    }
-    .popover(isPresented: $showIntro, content: {
-      IntroViewMobile().environmentObject(store)
-    })
-    .onAppear {
-      if !store.initialized && !store.loading {
-        showIntro = true
+      
+      if let item = store.currentFeedItem {
+        SourceItemView(item: item)
+      } else {
+        EmptyView()
       }
     }
   }

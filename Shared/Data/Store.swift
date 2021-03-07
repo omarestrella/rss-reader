@@ -63,7 +63,7 @@ class Store: ObservableObject {
   @Published var categories = [Category]()
 
   @Published var currentSource: Source?
-  @Published var currentRSSFeedItem: RSSFeedItem?
+  @Published var currentFeedItem: FeedItem?
 
   @Published var loading = false
 
@@ -102,6 +102,12 @@ class Store: ObservableObject {
       categories.forEach { category in
         self.sources.append(contentsOf: category.sources)
       }
+      self.currentSource = self.sources.first
+      
+      if self.sources.count > 0 {
+        self.initialized = true
+      }
+      
       return self.fetchFeedItems()
     }.catch { error in
       debugPrint("Error:", error)
