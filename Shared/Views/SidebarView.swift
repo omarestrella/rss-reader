@@ -39,6 +39,8 @@ struct SidebarEntry: View {
 struct SidebarView: View {
   @EnvironmentObject var store: Store
 
+  var sources: [Source]
+  
   @State var addingNewFeed = false
 
   var body: some View {
@@ -83,7 +85,7 @@ struct SidebarView: View {
 #if DEBUG
 struct NavigationListView_Previews: PreviewProvider {
   static var previews: some View {
-    SidebarView()
+    SidebarView(sources: [])
   }
 }
 #endif

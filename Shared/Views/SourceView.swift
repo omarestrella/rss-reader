@@ -10,32 +10,38 @@ import SwiftSoup
 import SwiftUI
 
 class SourceViewModel: ObservableObject {
-  @Published var state = FeedState.Loading
-  @Published var feed: Feed?
-  @Published var loading = false
-  @Published var loaded = false
-  @Published var feedItems = [FeedItem]()
-
-  var source: Source
-
-  init(source: Source) {
-    self.source = source
+  enum FeedItems {
+    case Empty
+    case Loading
+    case Loaded(feedItems: [FeedItem])
+  }
+  
+  @Published var feedItems = FeedItems.Empty
+  
+  var sortedItems: [FeedItem] {
+    switch feedItems {
+    case .Empty:
+      return []
+    case .Loading:
+      return []
+    case .Loaded(let items):
+      return items.sorted(by: { a, b in
+        if let aDate = a.pubDate, let bDate = b.pubDate {
+          if aDate < bDate {
+            return false
+          }
+          return true
+        }
+        return false
+      })
+    }
   }
 
-  func loadFeedItems(store: Store) {
-    if loaded {
-      return
+  func load(store: Store, source: Source) {
+    feedItems = .Loading
+    store.feedItems(source: source).then { items in
+      self.feedItems = .Loaded(feedItems: items)
     }
-    loading = true
-    store.feedItems(source: source)
-      .then { items in
-        let filtered = items.filter { !self.feedItems.contains($0) }
-        self.feedItems.append(contentsOf: filtered)
-      }
-      .always {
-        self.loaded = true
-        self.loading = false
-      }
   }
 }
 
@@ -94,54 +100,30 @@ struct SourceItemListView: View {
 
 struct SourceView: View {
   @EnvironmentObject var store: Store
-  @ObservedObject var model: SourceViewModel
+  @StateObject var model = SourceViewModel()
 
-  init(source: Source) {
-    model = SourceViewModel(source: source)
-  }
-
-  var sortedItems: [FeedItem] {
-    model.feedItems.sorted(by: { a, b in
-      if let aDate = a.pubDate, let bDate = b.pubDate {
-        if aDate < bDate {
-          return false
-        }
-        return true
-      }
-      return false
-    })
-  }
+  var source: Source
 
   var body: some View {
-    if model.loading {
-      VStack {
-        ProgressView()
-          .progressViewStyle(CircularProgressViewStyle())
-      }
-    } else {
-      List {
-        ForEach(sortedItems, id: \.id) { item in
-          NavigationLink(destination: SourceItemView(item: item), tag: item, selection: $store.currentFeedItem) {
-            SourceItemListView(item: item)
-          }
+    List {
+      ForEach(model.sortedItems, id: \.id) { item in
+        NavigationLink(destination: SourceItemView(item: item), tag: item, selection: $store.currentFeedItem) {
+          SourceItemListView(item: item)
         }
       }
-      .navigationTitle(Text(model.source.name))
-      .navigationBarTitleDisplayMode(.inline)
-      .frame(minWidth: 300)
-      .toolbar {
-        ToolbarItem(placement: .primaryAction) {
-          Button(action: {}, label: {
-            Label("Reload", systemImage: "arrow.clockwise.circle")
-              .labelStyle(IconOnlyLabelStyle())
-          })
-        }
+    }
+    .navigationTitle(Text(source.name))
+    .navigationBarTitleDisplayMode(.inline)
+    .toolbar {
+      ToolbarItem(placement: .primaryAction) {
+        Button(action: {}, label: {
+          Label("Reload", systemImage: "arrow.clockwise.circle")
+            .labelStyle(IconOnlyLabelStyle())
+        })
       }
-      .onAppear {
-        DispatchQueue.main.async {
-          model.loadFeedItems(store: store)
-        }
-      }
+    }
+    .onAppear {
+      model.load(store: store, source: source)
     }
   }
 }

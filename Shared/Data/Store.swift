@@ -67,19 +67,19 @@ class Store: ObservableObject {
 
   @Published var loading = false
 
-  @AppStorage("initialized") private var initializeStore = "no"
+  @AppStorage("initialized") private var initializedStore = "no"
 
   var database: DatabaseManager
 
   var initialized: Bool {
     get {
-      initializeStore == "yes"
+      initializedStore == "yes"
     }
     set {
       if newValue {
-        initializeStore = "yes"
+        initializedStore = "yes"
       } else {
-        initializeStore = "no"
+        initializedStore = "no"
       }
     }
   }
@@ -112,7 +112,9 @@ class Store: ObservableObject {
     }.catch { error in
       debugPrint("Error:", error)
     }.always {
-      self.loading = false
+      DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        self.loading = false
+      }
     }
   }
 

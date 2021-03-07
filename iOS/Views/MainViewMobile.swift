@@ -18,20 +18,28 @@ struct MainViewMobile: View {
   @State var showIntro = false
 
   var body: some View {
-    NavigationView {
-      SidebarView()
-      
-      if let source = store.currentSource {
-        SourceView(source: source)
-      } else {
-        Text("No Source")
+    ZStack {
+      NavigationView {
+        SidebarView(sources: store.sources)
+
+        if let source = store.currentSource {
+          SourceView(source: source)
+        } else {
+          Text("No Source")
+        }
+
+        if let item = store.currentFeedItem {
+          SourceItemView(item: item)
+        } else {
+          EmptyView()
+        }
       }
-      
-      if let item = store.currentFeedItem {
-        SourceItemView(item: item)
-      } else {
-        EmptyView()
-      }
+
+      VStack {
+        Image("Logo")
+          .resizable()
+          .frame(width: 256, height: 256)
+      }.opacity(store.loading ? 1 : 0)
     }
   }
 
